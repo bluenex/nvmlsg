@@ -61,13 +61,16 @@ async function detectNodeVersions(spinner: Ora): Promise<NodeVersionInfo[]> {
       if (existsSync(nodePath) && existsSync(npmPath)) {
         try {
           const { stdout: packages } = await execAsync(
-            `"${npmPath}" list -g --depth=0`,
+            `"${npmPath}" list -g --depth=0 --prefix="${join(nvmDir, version)}"`,
             {
               encoding: 'utf8',
               env: {
                 ...process.env,
                 PATH: `${join(nvmDir, version, 'bin')}:${process.env.PATH}`,
+                NODE_PATH: join(nvmDir, version, 'lib', 'node_modules'),
+                NPM_CONFIG_PREFIX: join(nvmDir, version),
               },
+              cwd: join(nvmDir, version),
             }
           );
 
