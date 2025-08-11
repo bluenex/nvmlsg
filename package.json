@@ -4,7 +4,8 @@
   "description": "CLI tool to list global npm packages for all Node.js versions in nvm",
   "main": "dist/cli.js",
   "bin": {
-    "nvmlsg": "./dist/cli.js"
+    "nvmlsg": "./dist/cli.js",
+    "@bluenex/nvmlsg": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
