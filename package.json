@@ -1,6 +1,6 @@
 {
   "name": "@bluenex/nvmlsg",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "CLI tool to list global npm packages for all Node.js versions in nvm",
   "main": "dist/cli.js",
   "bin": {
