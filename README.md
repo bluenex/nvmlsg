@@ -1,5 +1,7 @@
 # nvmlsg
 
+![Vibe Coding](https://img.shields.io/badge/vibe-coding-blue?style=for-the-badge&logo=sparkles&logoColor=white)
+
 A CLI tool to list global npm packages for all Node.js versions installed in nvm.
 
 ## Installation
