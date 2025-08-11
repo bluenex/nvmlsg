@@ -1,0 +1,49 @@
+{
+  "name": "@bluenex/nvmlsg",
+  "version": "1.0.0",
+  "description": "CLI tool to list global npm packages for all Node.js versions in nvm",
+  "main": "dist/cli.js",
+  "bin": {
+    "nvmlsg": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "format": "prettier --write \"src/**/*.{ts,js,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,json}\"",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nvm",
+    "npm",
+    "global-packages",
+    "cli",
+    "node-versions",
+    "developer-tools"
+  ],
+  "author": "bluenex",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluenex/nvmlsg.git"
+  },
+  "homepage": "https://github.com/bluenex/nvmlsg#readme",
+  "bugs": {
+    "url": "https://github.com/bluenex/nvmlsg/issues"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "eslint": "^9.33.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2"
+  }
+}
