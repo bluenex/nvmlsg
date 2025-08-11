@@ -1,8 +1,11 @@
-import { execSync } from 'child_process';
+import { exec } from 'child_process';
 import { existsSync, readdirSync, statSync } from 'fs';
-import { join, resolve } from 'path';
-import { homedir } from 'os';
 import ora, { Ora } from 'ora';
+import { homedir } from 'os';
+import { join, resolve } from 'path';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
 
 interface NodeVersionInfo {
   version: string;
@@ -57,13 +60,16 @@ async function detectNodeVersions(spinner: Ora): Promise<NodeVersionInfo[]> {
 
       if (existsSync(nodePath) && existsSync(npmPath)) {
         try {
-          const packages = execSync(`"${npmPath}" list -g --depth=0`, {
-            encoding: 'utf8',
-            env: {
-              ...process.env,
-              PATH: `${join(nvmDir, version, 'bin')}:${process.env.PATH}`,
-            },
-          });
+          const { stdout: packages } = await execAsync(
+            `"${npmPath}" list -g --depth=0`,
+            {
+              encoding: 'utf8',
+              env: {
+                ...process.env,
+                PATH: `${join(nvmDir, version, 'bin')}:${process.env.PATH}`,
+              },
+            }
+          );
 
           versions.push({
             version,
@@ -82,22 +88,18 @@ async function detectNodeVersions(spinner: Ora): Promise<NodeVersionInfo[]> {
     spinner.text = 'Checking system Node.js installation...';
 
     try {
-      const nodePath = execSync('which node', { encoding: 'utf8' }).trim();
-      const npmPath = execSync('which npm', { encoding: 'utf8' }).trim();
+      const { stdout: nodePath } = await execAsync('which node');
+      const { stdout: npmPath } = await execAsync('which npm');
 
       if (nodePath && npmPath) {
         spinner.text = 'Scanning system Node.js for global packages...';
 
-        const packages = execSync('npm list -g --depth=0', {
-          encoding: 'utf8',
-        });
-        const nodeVersion = execSync('node --version', {
-          encoding: 'utf8',
-        }).trim();
+        const { stdout: packages } = await execAsync('npm list -g --depth=0');
+        const { stdout: nodeVersion } = await execAsync('node --version');
 
         versions.push({
-          version: `system-${nodeVersion}`,
-          path: resolve(nodePath, '..', '..'),
+          version: `system-${nodeVersion.trim()}`,
+          path: resolve(nodePath.trim(), '..', '..'),
           packages: packages.trim(),
         });
       }
